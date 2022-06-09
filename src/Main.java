@@ -14,11 +14,12 @@ public class Main {
     public static String calc (String input) throws IOException {
             //grab nums from expression
             String[] nums = input.split("[+-/*]");
-            String numStr1 = nums[0].trim();
-            String numStr2 = nums[1].trim();
+
             //check is expression valid and is it Arabic
             boolean isArabic = isArabicExpression(input);
 
+            String numStr1 = nums[0].trim();
+            String numStr2 = nums[1].trim();
             //grab operator from expression
             Pattern operatorPattern = Pattern.compile("[-/+*]");
             Matcher operatorMatcher = operatorPattern.matcher(input);
@@ -73,12 +74,14 @@ public class Main {
 
     }
     //do calculations with roman numbers
-    static String calculateRoman(String num1, String num2, String operator){
+    static String calculateRoman(String num1, String num2, String operator) throws IOException{
         //transform roman input to arabic
         int numArabic1 = romanToArabic(num1);
         int numArabic2 = romanToArabic(num2);
         //do arabic calculation
         int result = calculateArabic(numArabic1, numArabic2, operator);
+        if (result < 0) throw  new IOException("Неверное выражение");
+
         String resultRoman = "";
         //transform arabic result to roman
         while (result >= 90) {
@@ -138,7 +141,6 @@ public class Main {
         if(numArabic1&&numRoman2) throw new IOException("Неверное выражение");
         if(numArabic2&&numRoman1) throw new IOException("Неверное выражение");
         //if roman1 - roman2 <=o
-        if(romanToArabic(nums[0]) - romanToArabic(nums[1])<=0)throw  new IOException("Неверное выражение");
 
 
         return numArabic1&&numArabic2;
